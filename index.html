@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GRAFF 8260667OG Signoff Dashboard</title>
+  <title>GRAFF 8260667OG Dashboard</title>
   <style>
     body {
       margin: 0;
@@ -15,33 +15,35 @@
       min-height: 100vh;
       background-color: white;
     }
+
     table {
       border-collapse: collapse;
-      font-size: 0.95vw;
-      table-layout: fixed;
       width: 98vw;
       max-height: 98vh;
+      font-size: 0.9vw;
+      table-layout: fixed;
     }
+
     th, td {
       border: 1px solid #ccc;
       text-align: center;
-      padding: 0.4em;
+      padding: 0.3em;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-    th {
-      background-color: #e0e0e0;
-    }
-    th.wrap {
+
+    th.fullwrap, th:nth-child(1), th:nth-child(2) {
       white-space: normal;
       word-wrap: break-word;
       font-size: 0.8vw;
     }
+
     td:nth-child(2) {
-      white-space: nowrap;
       text-align: left;
+      white-space: nowrap;
     }
+
     @media screen and (max-width: 600px) {
       table {
         font-size: 2vw;
@@ -53,9 +55,9 @@
   <div id="data"></div>
   <script>
     function fetchSheetData() {
-      const sheetID = "1ZvZvqtDFkRb2pBVM7gcZz4J2iuFURly6Oj0KD7Itb3k"; // Replace with your actual Sheet ID
+      const sheetID = "1ZvZvqtDFkRb2pBVM7gcZz4J2iuFURly6Oj0KD7Itb3k"; // Replace with your actual sheet ID
       const sheetName = "GRAFF 8260667OG Signoff Samples";
-      const query = encodeURIComponent("SELECT A, B, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z OFFSET 5");
+      const query = encodeURIComponent("SELECT A, B, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, AA, AB, AC, AD, AE, AF, AG, AH, AI, AJ, AK, AL OFFSET 5");
       const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${sheetName}&tq=${query}`;
 
       fetch(url)
@@ -72,7 +74,9 @@
           headers.forEach((header, idx) => {
             const th = document.createElement("th");
             th.textContent = header;
-            if (idx >= 2) th.classList.add("wrap");
+            if (idx === 0 || idx === 1 || idx >= 2) {
+              th.classList.add("fullwrap");
+            }
             headerRow.appendChild(th);
           });
           thead.appendChild(headerRow);
@@ -100,7 +104,7 @@
     }
 
     fetchSheetData();
-    setInterval(fetchSheetData, 60 * 1000); // Auto-refresh every minute
+    setInterval(fetchSheetData, 60000); // Refresh every 60 seconds
   </script>
 </body>
 </html>
