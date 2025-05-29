@@ -28,20 +28,22 @@
       border: 1px solid #ccc;
       text-align: center;
       padding: 0.3em;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
     }
 
-    th.fullwrap, th:nth-child(1), th:nth-child(2) {
+    th.fullwrap {
       white-space: normal;
       word-wrap: break-word;
       font-size: 0.8vw;
     }
 
+    td {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     td:nth-child(2) {
       text-align: left;
-      white-space: nowrap;
     }
 
     @media screen and (max-width: 600px) {
@@ -53,9 +55,10 @@
 </head>
 <body>
   <div id="data"></div>
+
   <script>
     function fetchSheetData() {
-      const sheetID = "1ZvZvqtDFkRb2pBVM7gcZz4J2iuFURly6Oj0KD7Itb3k"; // Replace with your actual sheet ID
+      const sheetID = "1ZvZvqtDFkRb2pBVM7gcZz4J2iuFURly6Oj0KD7Itb3k"; // Your actual sheet ID
       const sheetName = "GRAFF 8260667OG Signoff Samples";
       const query = encodeURIComponent("SELECT A, B, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, AA, AB, AC, AD, AE, AF, AG, AH, AI, AJ, AK, AL OFFSET 5");
       const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${sheetName}&tq=${query}`;
@@ -68,22 +71,21 @@
           const thead = document.createElement("thead");
           const tbody = document.createElement("tbody");
 
+          // Build headers
           const headers = jsonData.table.cols.map(col => col.label || "");
           const headerRow = document.createElement("tr");
-
-          headers.forEach((header, idx) => {
+          headers.forEach(header => {
             const th = document.createElement("th");
             th.textContent = header;
-            if (idx === 0 || idx === 1 || idx >= 2) {
-              th.classList.add("fullwrap");
-            }
+            th.classList.add("fullwrap");
             headerRow.appendChild(th);
           });
           thead.appendChild(headerRow);
 
+          // Build rows
           jsonData.table.rows.forEach(row => {
             const tr = document.createElement("tr");
-            row.c.forEach((cell, i) => {
+            row.c.forEach(cell => {
               const td = document.createElement("td");
               td.textContent = cell ? cell.v : "";
               tr.appendChild(td);
@@ -91,6 +93,7 @@
             tbody.appendChild(tr);
           });
 
+          // Append to DOM
           table.appendChild(thead);
           table.appendChild(tbody);
           const container = document.getElementById("data");
