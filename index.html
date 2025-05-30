@@ -16,9 +16,10 @@
     }
     table {
       border-collapse: collapse;
-      width: 98vw;
+      width: auto;
+      max-width: 98vw;
       font-size: 0.85vw;
-      table-layout: fixed;
+      table-layout: auto;
     }
     th, td {
       border: 1px solid #ccc;
@@ -36,6 +37,10 @@
     td:nth-child(2) {
       white-space: nowrap;
       text-align: left;
+      min-width: 300px;
+    }
+    th:nth-child(2) {
+      min-width: 300px;
     }
     @media screen and (max-width: 600px) {
       table {
@@ -51,7 +56,7 @@
       const sheetID = "1ZvZvqtDFkRb2pBVM7gcZz4J2iuFURly6Oj0KD7Itb3k";
       const sheetName = "GRAFF 8260667OG Signoff Samples";
 
-      // Skip first 4 rows (OFFSET 4) and fetch A, B, K–AL (excluding C–J)
+      // Fetching A, B, K to AL (excluding columns C–J), skipping 4 rows only
       const query = encodeURIComponent("SELECT A, B, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, AA, AB, AC, AD, AE, AF, AG, AH, AI, AJ, AK, AL OFFSET 4");
       const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${sheetName}&tq=${query}`;
 
@@ -69,7 +74,7 @@
           headers.forEach((header, idx) => {
             const th = document.createElement("th");
             th.textContent = header;
-            if (idx !== 1) th.classList.add("wrap");
+            if (idx !== 1) th.classList.add("wrap"); // wrap for all except column B
             headerRow.appendChild(th);
           });
           thead.appendChild(headerRow);
@@ -97,7 +102,7 @@
     }
 
     fetchSheetData();
-    setInterval(fetchSheetData, 60000); // Refresh every 60 seconds
+    setInterval(fetchSheetData, 60000); // Auto-refresh every 60 seconds
   </script>
 </body>
 </html>
