@@ -55,7 +55,7 @@
     function fetchSheetData() {
       const sheetID = "1ZvZvqtDFkRb2pBVM7gcZz4J2iuFURly6Oj0KD7Itb3k";
       const sheetName = "GRAFF 8260667OG Signoff Samples";
-      const query = encodeURIComponent("SELECT * OFFSET 5");
+      const query = encodeURIComponent("SELECT * OFFSET 4");
       const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${sheetName}&tq=${query}`;
 
       fetch(url)
@@ -72,9 +72,7 @@
           headers.forEach((header, idx) => {
             const th = document.createElement("th");
             th.textContent = header;
-            if (idx !== 1) {
-              th.classList.add("wrap");
-            }
+            if (idx !== 1) th.classList.add("wrap");  // Wrap for all except column B
             headerRow.appendChild(th);
           });
           thead.appendChild(headerRow);
