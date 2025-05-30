@@ -12,7 +12,6 @@
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      min-height: 100vh;
       background-color: white;
     }
     table {
@@ -28,10 +27,6 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       text-align: center;
-    }
-    th {
-      background-color: #eee;
-      font-weight: bold;
     }
     th.wrap {
       white-space: normal;
@@ -55,7 +50,9 @@
     function fetchSheetData() {
       const sheetID = "1ZvZvqtDFkRb2pBVM7gcZz4J2iuFURly6Oj0KD7Itb3k";
       const sheetName = "GRAFF 8260667OG Signoff Samples";
-      const query = encodeURIComponent("SELECT * OFFSET 4");
+
+      // Skip first 4 rows (OFFSET 4) and fetch A, B, K–AL (excluding C–J)
+      const query = encodeURIComponent("SELECT A, B, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, AA, AB, AC, AD, AE, AF, AG, AH, AI, AJ, AK, AL OFFSET 4");
       const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${sheetName}&tq=${query}`;
 
       fetch(url)
@@ -72,7 +69,7 @@
           headers.forEach((header, idx) => {
             const th = document.createElement("th");
             th.textContent = header;
-            if (idx !== 1) th.classList.add("wrap");  // Wrap for all except column B
+            if (idx !== 1) th.classList.add("wrap");
             headerRow.appendChild(th);
           });
           thead.appendChild(headerRow);
