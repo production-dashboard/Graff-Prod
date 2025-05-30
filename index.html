@@ -40,6 +40,7 @@
     td:nth-child(2) {
       white-space: nowrap;
       text-align: left;
+      width: auto;
     }
 
     @media screen and (max-width: 600px) {
@@ -62,23 +63,28 @@
         .then(res => res.text())
         .then(rep => {
           const jsonData = JSON.parse(rep.substring(47).slice(0, -2));
-          const allRows = jsonData.table.rows;
+          const rows = jsonData.table.rows;
+
+          if (!rows || rows.length < 6) {
+            document.getElementById("data").innerHTML = "<p style='color:red;'>⚠️ Insufficient rows in sheet</p>";
+            return;
+          }
 
           const table = document.createElement("table");
           const thead = document.createElement("thead");
           const tbody = document.createElement("tbody");
 
-          // Use actual row 6 (index 5) as header
+          // Use row 6 (index 5) as header row
           const headerRow = document.createElement("tr");
-          allRows[5].c.forEach((cell, i) => {
+          rows[5].c.forEach(cell => {
             const th = document.createElement("th");
             th.textContent = cell ? cell.v : "";
             headerRow.appendChild(th);
           });
           thead.appendChild(headerRow);
 
-          // Display rows below header (from row 7 onward)
-          allRows.slice(6).forEach(row => {
+          // Use rows from row 7 onward (index 6 and beyond) as body
+          rows.slice(6).forEach(row => {
             const tr = document.createElement("tr");
             row.c.forEach((cell, i) => {
               const td = document.createElement("td");
@@ -101,7 +107,7 @@
     }
 
     fetchSheetData();
-    setInterval(fetchSheetData, 60000);
+    setInterval(fetchSheetData, 60000); // Auto-refresh every 60 seconds
   </script>
 </body>
 </html>
