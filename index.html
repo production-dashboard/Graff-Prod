@@ -15,12 +15,14 @@
       background-color: white;
       overflow: hidden;
     }
+
     table {
       border-collapse: collapse;
       width: 98vw;
       font-size: 0.9vw;
       table-layout: fixed;
     }
+
     th, td {
       border: 1px solid #ccc;
       text-align: center;
@@ -29,30 +31,26 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+
     th.wrap, td.wrap {
       white-space: normal;
       word-wrap: break-word;
     }
+
     td.left {
       text-align: left;
     }
+
     td.column-b {
       white-space: nowrap;
       text-align: left;
       width: auto;
     }
-    .pending {
-      background-color: #FF6666 !important;
-    }
-    .in-process {
-      background-color: #f4c44d !important;
-    }
-    .done {
-      background-color: #39FF14 !important;
-    }
-    .na {
-      background-color: #87CEEB !important;
-    }
+
+    .pending { background-color: #FF6666 !important; }
+    .in-process { background-color: #f4c44d !important; }
+    .done { background-color: #39FF14 !important; }
+    .na { background-color: #87CEEB !important; }
   </style>
 </head>
 <body>
@@ -90,7 +88,6 @@
               const value = cell ? cell.v : "";
               td.textContent = value;
               td.classList.add("wrap");
-
               if (idx === 1) td.classList.add("column-b");
 
               const cellVal = value.toString().toLowerCase();
@@ -106,7 +103,6 @@
 
           table.appendChild(thead);
           table.appendChild(tbody);
-
           const container = document.getElementById("data");
           container.innerHTML = "";
           container.appendChild(table);
@@ -118,7 +114,7 @@
     }
 
     fetchSheetData();
-    setInterval(fetchSheetData, 60000); // Refresh every 60 seconds
+    setInterval(fetchSheetData, 60000); // refresh every 60 seconds
   </script>
 </body>
 </html>
