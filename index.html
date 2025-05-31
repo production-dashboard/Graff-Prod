@@ -5,21 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GRAFF 8260667OG Dashboard</title>
   <style>
-    body {
+    html, body {
       margin: 0;
       padding: 0;
+      height: 100%;
+      overflow: hidden;
       font-family: Arial, sans-serif;
+      background-color: white;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
-      background-color: white;
+      align-items: center;
+    }
+
+    #data {
+      width: 100vw;
+      height: 100vh;
       overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     table {
       border-collapse: collapse;
       width: 98vw;
-      font-size: 0.9vw;
+      height: auto;
+      font-size: 0.95vw;
       table-layout: fixed;
     }
 
@@ -55,6 +66,7 @@
 </head>
 <body>
   <div id="data"></div>
+
   <script>
     function fetchSheetData() {
       const sheetID = "1ZvZvqtDFkRb2pBVM7gcZz4J2iuFURly6Oj0KD7Itb3k";
@@ -88,6 +100,7 @@
               const value = cell ? cell.v : "";
               td.textContent = value;
               td.classList.add("wrap");
+
               if (idx === 1) td.classList.add("column-b");
 
               const cellVal = value.toString().toLowerCase();
@@ -103,6 +116,7 @@
 
           table.appendChild(thead);
           table.appendChild(tbody);
+
           const container = document.getElementById("data");
           container.innerHTML = "";
           container.appendChild(table);
@@ -114,7 +128,7 @@
     }
 
     fetchSheetData();
-    setInterval(fetchSheetData, 60000); // refresh every 60 seconds
+    setInterval(fetchSheetData, 60000); // Refresh every 60 seconds
   </script>
 </body>
 </html>
