@@ -3,7 +3,141 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GRAFF 8260667OG Dashboard</title>
+  <title><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GRAFF 8260667OG DAILY UPDATE</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #data {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 98vw;
+      height: auto;
+      font-size: 0.95vw;
+      table-layout: fixed;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      text-align: center;
+      padding: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    th.wrap, td.wrap {
+      white-space: normal;
+      word-wrap: break-word;
+    }
+
+    td.left {
+      text-align: left;
+    }
+
+    td.column-b {
+      white-space: nowrap;
+      text-align: left;
+      width: auto;
+    }
+
+    .pending { background-color: #FF6666 !important; }
+    .in-process { background-color: #f4c44d !important; }
+    .done { background-color: #39FF14 !important; }
+    .na { background-color: #87CEEB !important; }
+  </style>
+</head>
+<body>
+  <div id="data"></div>
+
+  <script>
+    function fetchSheetData() {
+      const sheetID = "1ZvZvqtDFkRb2pBVM7gcZz4J2iuFURly6Oj0KD7Itb3k";
+      const sheetName = "GRAFF 8260667OG Signoff Samples";
+      const query = encodeURIComponent("SELECT A, B, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, AA, AB, AC, AD, AE, AF, AG, AH, AI, AJ, AK, AL OFFSET 4");
+      const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${sheetName}&tq=${query}`;
+
+      fetch(url)
+        .then(res => res.text())
+        .then(rep => {
+          const jsonData = JSON.parse(rep.substring(47).slice(0, -2));
+          const table = document.createElement("table");
+          const thead = document.createElement("thead");
+          const tbody = document.createElement("tbody");
+
+          const headers = jsonData.table.cols.map(col => col.label || "");
+          const headerRow = document.createElement("tr");
+
+          headers.forEach((header, idx) => {
+            const th = document.createElement("th");
+            th.textContent = header;
+            th.classList.add("wrap");
+            headerRow.appendChild(th);
+          });
+          thead.appendChild(headerRow);
+
+          jsonData.table.rows.forEach(row => {
+            const tr = document.createElement("tr");
+            row.c.forEach((cell, idx) => {
+              const td = document.createElement("td");
+              const value = cell ? cell.v : "";
+              td.textContent = value;
+              td.classList.add("wrap");
+
+              if (idx === 1) td.classList.add("column-b");
+
+              const cellVal = value.toString().toLowerCase();
+              if (cellVal.includes("pending")) td.classList.add("pending");
+              else if (cellVal.includes("in process")) td.classList.add("in-process");
+              else if (cellVal.includes("done")) td.classList.add("done");
+              else if (cellVal.includes("n/a")) td.classList.add("na");
+
+              tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+          });
+
+          table.appendChild(thead);
+          table.appendChild(tbody);
+
+          const container = document.getElementById("data");
+          container.innerHTML = "";
+          container.appendChild(table);
+        })
+        .catch(error => {
+          console.error("Error fetching data:", error);
+          document.getElementById("data").innerHTML = "<p style='color:red;'>⚠️ Failed to load data</p>";
+        });
+    }
+
+    fetchSheetData();
+    setInterval(fetchSheetData, 60000); // Refresh every 60 seconds
+  </script>
+</body>
+</html>
+</title>
   <style>
     html, body {
       margin: 0;
